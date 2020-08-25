@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 interface IDataSongs {
   songs: ISongs[];
   song: ISongs;
+  loading: boolean;
 }
 
 interface ISongs {

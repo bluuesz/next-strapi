@@ -1,7 +1,8 @@
 import { ListItem, Image, Flex, Text, Stack, Heading } from "@chakra-ui/core";
 import NextLink from "next/link";
+import { ISongs } from "../graphql/songs";
 
-const Song = ({ id, name, author, img_song_url }) => (
+const Song = ({ id, name, author, img_song_url }: ISongs) => (
   <ListItem
     border="1px solid"
     borderColor="gray.200"

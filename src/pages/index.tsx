@@ -2,31 +2,34 @@ import { List, Heading } from "@chakra-ui/core";
 
 import Song from "../components/Song";
 import { SONGS_QUERY, IDataSongs } from "../graphql/songs";
-import { useQuery } from "@apollo/react-hooks";
+import { initializeApollo } from "../lib/apollo";
 
-const App = () => {
-  const { data, loading, error } = useQuery<IDataSongs>(SONGS_QUERY);
+export const getStaticProps = async () => {
+  const client = initializeApollo();
 
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  const { data } = await client.query<IDataSongs>({
+    query: SONGS_QUERY,
+  });
 
-  return (
-    <>
-      <Heading mt={14} mb={4} fontWeight="800">
-        Best songs
-      </Heading>
-
-      {error ? (
-        "Ocorreu um erro ao carregar songs"
-      ) : (
-        <List>
-          {data.songs.map((song) => (
-            <Song key={song.id_video} {...song} />
-          ))}
-        </List>
-      )}
-    </>
-  );
+  return {
+    props: {
+      songs: data.songs,
+    },
+  };
 };
+
+const App = ({ songs }: IDataSongs) => (
+  <>
+    <Heading mt={14} mb={4} fontWeight="800">
+      Best songs
+    </Heading>
+
+    <List>
+      {songs.map((song) => (
+        <Song key={song.id_video} {...song} />
+      ))}
+    </List>
+  </>
+);
 
 export default App;

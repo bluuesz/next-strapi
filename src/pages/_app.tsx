@@ -2,9 +2,11 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { ThemeProvider, CSSReset } from "@chakra-ui/core";
 import Head from "next/head";
 import { Global, css } from "@emotion/core";
-import withData from "../utils/apollo";
+import { useApollo } from "../lib/apollo";
 
-function MyApp({ Component, pageProps, apollo }) {
+function MyApp({ Component, pageProps }) {
+  const apollo = useApollo(pageProps.initialApolloState);
+
   return (
     <ApolloProvider client={apollo}>
       <ThemeProvider>
@@ -37,4 +39,4 @@ function MyApp({ Component, pageProps, apollo }) {
   );
 }
 
-export default withData(MyApp);
+export default MyApp;
